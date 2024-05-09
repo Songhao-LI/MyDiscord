@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser, clearUser } from "../../../redux/actions/userActions";
+import { setUser, clearUser } from "../../redux/actions/userActions.js";
 
 // eslint-disable-next-line react/prop-types
 const Login = ({ loginPopup, handleLoginPopup, handleRegisterPopup }) => {
