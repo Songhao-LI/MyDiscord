@@ -18,7 +18,7 @@ const TopNavigation = () => {
             <BellIcon/>
             <div>
                 {/* Menu Items */}
-                <div className="hidden lg:block">
+                <div className="hidden lg:block mr-2">
                     <ul className="flex items-center gap-4">
                         {/* Dropdown  */}
                         <li className="relative cursor-pointer group">

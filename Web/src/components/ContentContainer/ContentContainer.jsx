@@ -5,12 +5,20 @@ const ContentContainer = () => {
     return (
         <div className='content-container h-screen'>
             <TopNavigation />
-            <div className='content-list space-y-6 pl-0'> {/* Adjust left padding here */}
+            <div className='content-list hide-scrollbar space-y-6 pl-0'> {/* Adjust left padding here */}
                 <Post
                     name='Ryan'
                     timestamp='one week ago'
                     text={`test message 1. test message 1.test message 1.test message 1.test message 1.test message 1.`}
                 />
+                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
+                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
+                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
+                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
+                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
+                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
+                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
+                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
                 <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
                 <Post name='Priyanshi' timestamp='5 days ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
                 <Post
