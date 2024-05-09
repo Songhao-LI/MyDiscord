@@ -7,21 +7,11 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 
 const App = () => {
-    const [loginPopup, setLoginPopup] = React.useState(false);
-    const [registerPopup, setRegisterPopup] = React.useState(false);
-
-    const handleLoginPopup = () => {
-        setLoginPopup(!loginPopup);
-    };
-    const handleRegisterPopup = () => {
-        setRegisterPopup(!registerPopup);
-    };
-
     return (
         <Provider store={store}>
             <BrowserRouter>
-                {/*<Register registerPopup={registerPopup} handleRegisterPopup={handleRegisterPopup}></Register>*/}
-                {/*<Login loginPopup={loginPopup} handleLoginPopup={handleLoginPopup} handleRegisterPopup={handleRegisterPopup}/>*/}
+                <Register></Register>
+                <Login/>
                 <Routes>
                     <Route path="/" element={<Home />} />
                 </Routes>

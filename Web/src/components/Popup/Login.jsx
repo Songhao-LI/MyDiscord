@@ -3,13 +3,17 @@ import { IoCloseOutline } from "react-icons/io5";
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, clearUser } from "../../redux/actions/userActions.js";
+import { toggleLoginPopup, toggleRegisterPopup } from '../../redux/actions/popupActions';
+
 
 // eslint-disable-next-line react/prop-types
-const Login = ({ loginPopup, handleLoginPopup, handleRegisterPopup }) => {
+const Login = () => {
     const [check, setCheck] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const user = useSelector(state => state.user.currentUser);
+    const loginPopup = useSelector(state => state.popups.showLoginPopup);
+    const dispatch = useDispatch();
 
     const clickCheckBox = () => {
         setCheck(!check);
@@ -37,11 +41,12 @@ const Login = ({ loginPopup, handleLoginPopup, handleRegisterPopup }) => {
     const googleLogin = () => {
         console.log('Google')
     }
-
+    const closeLoginPopup = () => {
+        dispatch(toggleLoginPopup());
+    }
     const createAccount = () => {
-        // create an account
-        handleLoginPopup()
-        handleRegisterPopup()
+        dispatch(toggleLoginPopup());
+        dispatch(toggleRegisterPopup());
     }
 
     const forgetPassword = () => {
@@ -58,8 +63,7 @@ const Login = ({ loginPopup, handleLoginPopup, handleRegisterPopup }) => {
                             {/* Header secton */}
                             <div className="flex items-center flex-row-reverse">
                                 <div>
-                                    <IoCloseOutline
-                                        onClick={handleLoginPopup}
+                                    <IoCloseOutline onClick={closeLoginPopup}
                                         className="text-2xl cursor-pointer"
                                     />
                                 </div>

@@ -1,8 +1,10 @@
 const initialState = {
     currentUser: {
-        name: "Guest",
-        email: "test@example.com",
-        isAuthenticated: false
+        username: null,
+        email: null,
+        phoneNumber: null,
+        password: null,
+        isLogin: false
     }
 };
 
@@ -13,7 +15,7 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 currentUser: {
                     ...action.payload,
-                    isAuthenticated: true
+                    isLogin: true
                 }
             };
         case 'CLEAR_USER':

@@ -1,11 +1,15 @@
 import React, {useState} from "react";
 import { IoCloseOutline } from "react-icons/io5";
+import {useDispatch, useSelector} from "react-redux";
+import {toggleLoginPopup, toggleRegisterPopup} from "../../redux/actions/popupActions.js";
 
 // eslint-disable-next-line react/prop-types
-const Register = ({ registerPopup, handleRegisterPopup }) => {
+const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const registerPopup = useSelector(state => state.popups.showRegisterPopup);
+    const dispatch = useDispatch();
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -36,21 +40,17 @@ const Register = ({ registerPopup, handleRegisterPopup }) => {
                 }
             }
         };
-
-        handleRegisterPopup()
+        dispatch(toggleRegisterPopup());
     };
     const googleRegister = () => {
         console.log('Google')
     }
 
-    const createAccount = () => {
+    const closeRegisterPopup = () => {
         // create an account
-        handleRegisterPopup()
+        dispatch(toggleRegisterPopup());
     }
 
-    const forgetPassword = () => {
-        // forgetPassword
-    }
 
     return (
         <>
@@ -63,7 +63,7 @@ const Register = ({ registerPopup, handleRegisterPopup }) => {
                             <div className="flex items-center flex-row-reverse">
                                 <div>
                                     <IoCloseOutline
-                                        onClick={handleRegisterPopup}
+                                        onClick={closeRegisterPopup}
                                         className="text-2xl cursor-pointer"
                                     />
                                 </div>
@@ -79,8 +79,7 @@ const Register = ({ registerPopup, handleRegisterPopup }) => {
                                                 <h3 className="mb-3 text-4xl font-extrabold text-dark-grey-900">
                                                     REGISTER
                                                 </h3>
-                                                <p className="mb-4 text-slate-400">Begin your amazing shopping
-                                                    journey!</p>
+                                                <p className="mb-4 text-slate-400">Join our community and connect with others.!</p>
                                                 <a onClick={googleRegister}
                                                    className="flex items-center justify-center w-full py-4 mb-6 text-sm font-medium transition duration-300 rounded-2xl text-grey-900 bg-green-200 dark:bg-slate-700 hover:bg-grey-400 focus:ring-4 focus:ring-grey-300">
                                                     <img className="h-5 mr-2"
