@@ -2,18 +2,18 @@ import { useState } from 'react';
 import { BsHash } from 'react-icons/bs';
 import { FaChevronDown, FaChevronRight, FaPlus } from 'react-icons/fa';
 
-const topics = ['tailwind-css', 'react'];
-const questions = ['jit-compilation', 'purge-files', 'dark-mode'];
-const random = ['variants', 'plugins'];
+const neighbors = ['neighbors1', 'neighbors2'];
+const friends  = ['friends1', 'friends2', 'friends3'];
+const hoods = ['hood1', 'hood2'];
 
 const ChannelBar = () => {
   return (
     <div className='channel-bar shadow-lg'>
       <ChannelBlock />
       <div className='channel-container'>
-        <Dropdown header='Topics' selections={topics} />
-        <Dropdown header='Questions' selections={questions} />
-        <Dropdown header='Random' selections={random} />
+        <Dropdown header='neighbor feeds ' selections={neighbors} />
+        <Dropdown header='friend feeds ' selections={friends} />
+        <Dropdown header='hood feeds ' selections={hoods} />
       </div>
     </div>
   );

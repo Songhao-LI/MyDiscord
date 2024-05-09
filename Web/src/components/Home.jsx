@@ -1,6 +1,6 @@
 import Channelbar from './ChannelBar';
-import ContentContainer from './ContentContainer';
-import SideBar from './SideBar';
+import ContentContainer from './ContentContainer/ContentContainer.jsx';
+import SideBar from './SideBar/SideBar.jsx';
 
 import AOS from "aos";
 import "aos/dist/aos.css";
