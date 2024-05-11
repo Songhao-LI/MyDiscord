@@ -16,5 +16,4 @@ class UserViewSet(viewsets.ModelViewSet):
         if response.data:
             return response
         else:
-            # 当没有数据时，可以自定义返回的内容
             return Response({'data': [], 'message': 'No users found'}, status=status.HTTP_200_OK)
