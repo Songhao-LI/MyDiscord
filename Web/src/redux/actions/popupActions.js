@@ -11,3 +11,9 @@ export const toggleRegisterPopup = () => {
         type: 'TOGGLE_REGISTER_POPUP'
     };
 };
+
+export const toggleEditPopup = () => {
+    return {
+        type: 'TOGGLE_EDIT_POPUP'
+    };
+};

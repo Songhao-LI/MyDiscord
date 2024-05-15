@@ -1,7 +1,8 @@
 // reducers/popupReducer.js
 const initialState = {
     showLoginPopup: false,
-    showRegisterPopup: false
+    showRegisterPopup: false,
+    showEditPopup: false
 };
 
 const popupReducer = (state = initialState, action) => {
@@ -15,6 +16,11 @@ const popupReducer = (state = initialState, action) => {
             return {
                 ...state,
                 showRegisterPopup: !state.showRegisterPopup
+            };
+        case 'TOGGLE_EDIT_POPUP':
+            return {
+                ...state,
+                showEditPopup: !state.showEditPopup
             };
         default:
             return state;

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import login
 from django.contrib.auth.hashers import check_password, make_password
 from django.db import connection
+from django.utils.dateparse import parse_datetime
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -66,6 +67,9 @@ class UserViewSet(viewsets.ModelViewSet):
             user_id, hashed_password = user
             if check_password(password, hashed_password):
                 # TODO: token, created = Token.objects.get_or_create(user=current_user)
+                with connection.cursor() as cursor:
+                    cursor.execute("UPDATE \"MyDiscord_user\" SET last_login = %s WHERE \"uID\" = %s", [timezone.now(), user_id])
+
                 current_user = User.objects.get(pk=user_id)
                 login(request, current_user)  # This handles the session
                 serializer = self.get_serializer(current_user)
@@ -93,6 +97,40 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         else:
             return Response({"error": "No user logged in"}, status=status.HTTP_404_NOT_FOUND)
+
+    # partial update
+    def update(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        user_data = request.data
+        allowed_fields = {'block_id', 'hood_id', 'profile', 'photo', 'home_longitude', 'home_latitude'}
+        fields_to_update = {k: v for k, v in user_data.items() if k in allowed_fields}
+
+        if not fields_to_update:
+            return Response({"error": "No valid field provided for update"}, status=status.HTTP_400_BAD_REQUEST)
+
+        set_clauses = []
+        params = []
+        for field, value in fields_to_update.items():
+            # if field == 'last_login' and isinstance(value, str):
+            #     value = parse_datetime(value)
+            if field == 'password':
+                value = make_password(value)
+            set_clauses.append(f"{field} = %s")
+            params.append(value)
+
+        params.append(pk)
+        sql_update_query = f'''
+            UPDATE "MyDiscord_user"
+            SET {', '.join(set_clauses)}
+            WHERE "uID" = %s
+        '''
+
+        with connection.cursor() as cursor:
+            cursor.execute(sql_update_query, params)
+            if cursor.rowcount == 0:
+                return Response({"error": "No such user or no update performed"}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({"message": "User updated successfully"}, status=status.HTTP_200_OK)
 
 
 

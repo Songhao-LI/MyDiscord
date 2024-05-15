@@ -9,7 +9,7 @@ import {
 import useDarkMode from '../../hooks/useDarkMode';
 import {useDispatch, useSelector} from "react-redux";
 import Button from "../Shared/Button.jsx";
-import {toggleLoginPopup} from "../../redux/actions/popupActions.js";
+import {toggleEditPopup, toggleLoginPopup} from "../../redux/actions/popupActions.js";
 import axios from "axios";
 import {clearUser, setUser} from "../../redux/actions/userActions.js";
 
@@ -22,6 +22,9 @@ const TopNavigation = () => {
     const signOutHandler = () => {
         const response = axios.post('/api/users/logout/');
         dispatch(clearUser());
+    }
+    const editHandler = () => {
+        dispatch(toggleEditPopup(true));
     }
     return (
         <div className='top-navigation'>
@@ -59,7 +62,7 @@ const TopNavigation = () => {
                                         <span className="text-gray-500  dark:hover:text-white duration-200 inline-block w-full p-2 hover:bg-primary/20 rounded-md font-semibold">
                                             Account Info
                                         </span>
-                                                <span className="text-gray-500  dark:hover:text-white duration-200 inline-block w-full p-2 hover:bg-primary/20 rounded-md font-semibold">
+                                        <span onClick={editHandler} className="text-gray-500  dark:hover:text-white duration-200 inline-block w-full p-2 hover:bg-primary/20 rounded-md font-semibold">
                                             Settings
                                         </span>
                                         <span onClick={signOutHandler} className="text-gray-500  dark:hover:text-white duration-200 inline-block w-full p-2 hover:bg-primary/20 rounded-md font-semibold">

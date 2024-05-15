@@ -107,7 +107,7 @@
   .post {
     @apply w-full
     flex flex-row items-center justify-evenly
-    py-4 px-8 m-0
+    py-0 px-8 m-0
     cursor-pointer;
   }
 

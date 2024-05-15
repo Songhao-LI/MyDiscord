@@ -8,6 +8,7 @@ import store from './redux/store';
 import axios from "axios";
 import { setUser } from "./redux/actions/userActions.js";
 import { toggleLoginPopup } from "./redux/actions/popupActions.js";
+import EditProfile from "./components/Popup/EditProfile.jsx";
 
 const App = () => {
     const user = useSelector(state => state.user.currentUser);
@@ -31,6 +32,7 @@ const App = () => {
             <BrowserRouter>
                 <Register></Register>
                 <Login/>
+                <EditProfile></EditProfile>
                 <Routes>
                     <Route path="/" element={<Home />} />
                 </Routes>

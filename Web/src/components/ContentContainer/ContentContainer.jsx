@@ -5,33 +5,34 @@ const ContentContainer = () => {
     return (
         <div className='content-container h-screen'>
             <TopNavigation />
-            <div className='content-list hide-scrollbar space-y-6 pl-0'> {/* Adjust left padding here */}
+            <div className='content-list hide-scrollbar space-y-6 pl-0 mt-3'> {/* Adjust left padding here */}
                 <Post
                     name='Ryan'
                     timestamp='one week ago'
                     text={`test message 1. test message 1.test message 1.test message 1.test message 1.test message 1.`}
                 />
-                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
-                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
-                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
-                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
-                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
-                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
-                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
-                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
-                <Post name='Rocky' timestamp='one week ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
-                <Post name='Priyanshi' timestamp='5 days ago' text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`} />
+                <div
+                    className='w-full bg-gray-200 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full'/>
+                <Post name='Rocky' timestamp='one week ago'
+                      text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`}/>
+                <div
+                    className='w-full bg-gray-200 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full'/>
+                <Post name='Priyanshi' timestamp='5 days ago'
+                      text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`}/>
+                <div
+                    className='w-full bg-gray-200 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full'/>
                 <Post
                     name='Torsten Suel'
                     timestamp='Just now'
                     text={`Good Job!`}
                 />
             </div>
-            <BottomBar />
+            <BottomBar/>
         </div>
     );
 };
 
+const Divider = () => <hr className="sidebar-hr"/>;
 const BottomBar = () => (
     <div className='bottom-bar flex items-center'>
         <PlusIcon />
@@ -44,7 +45,7 @@ const Post = ({ name, timestamp, text }) => {
     return (
         <div className='post pl-0 flex items-start justify-start ml-5'> {/* Adjust left padding here */}
             <div className='avatar-wrapper flex justify-start'>
-                <img src={`https://avatars.dicebear.com/api/open-peeps/${seed}.svg`} alt='' className='avatar' />
+                <img src={`https://avatars.dicebear.com/api/open-peeps/${seed}.svg`} alt='' className='avatar'/>
             </div>
 
             <div className='post-content ml-5'>
