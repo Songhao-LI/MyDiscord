@@ -26,11 +26,16 @@ const Login = () => {
     };
     const loginNow = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/users/login');
+            const response = await axios.post('/api/users/login/', {
+                username: username,
+                password: password
+            });
             console.log('Login successful:', response.data);
             dispatch(setUser(response.data.user));
-            console.log(user)
+            dispatch(toggleLoginPopup(false))
         } catch (error) {
+            alert('Login failed: ' + error.response.data.error);
+
             if (error.response) {
                 console.error('Login failed:', error.response.data);
             } else if (error.request) {
@@ -42,6 +47,7 @@ const Login = () => {
     };
     const googleLogin = () => {
         console.log('Google')
+        alert('the functionality will be released soon')
     }
     const closeLoginPopup = () => {
         dispatch(toggleLoginPopup());
@@ -120,7 +126,7 @@ const Login = () => {
                                                         Forget password?
                                                     </a>
                                                 </div>
-                                                <button onClick={loginNow}
+                                                <button onClick={loginNow} type="button"
                                                     className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-primary">
                                                     Sign In
                                                 </button>

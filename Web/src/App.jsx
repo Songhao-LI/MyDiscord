@@ -17,9 +17,9 @@ const App = () => {
     useEffect(() => {
         const getUserInfo = async () => {
             try {
-                const response = await axios.get('/api/users');
+                const response = await axios.get('/api/users/current');
                 dispatch(setUser(response.data));
-                dispatch(toggleLoginPopup(true));
+                dispatch(toggleLoginPopup());
                 console.log(response.data)
             } catch (error) {
                 console.error('Error fetching user info:', error.message);
