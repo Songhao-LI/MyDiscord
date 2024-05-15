@@ -17,3 +17,9 @@ export const toggleEditPopup = () => {
         type: 'TOGGLE_EDIT_POPUP'
     };
 };
+
+export const toggleFriendsPopup = () => {
+    return {
+        type: 'TOGGLE_FRIENDS_POPUP'
+    };
+};

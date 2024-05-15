@@ -6,9 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from './redux/store';
 import axios from "axios";
-import { setUser } from "./redux/actions/userActions.js";
+import {addFriendRequest, setFriendRequests, setUser} from "./redux/actions/userActions.js";
 import { toggleLoginPopup } from "./redux/actions/popupActions.js";
 import EditProfile from "./components/Popup/EditProfile.jsx";
+import FriendRequest from "./components/Popup/FriendRequest.jsx";
 
 const App = () => {
     const user = useSelector(state => state.user.currentUser);
@@ -20,8 +21,11 @@ const App = () => {
             try {
                 const response = await axios.get('/api/users/current');
                 dispatch(setUser(response.data));
+
+                // Fetch friend requests for the current user
+                const friendRequestResponse = await axios.get(`/api/friendrequests/?uID=${response.data.uID}`);
+                dispatch(setFriendRequests(friendRequestResponse.data));
                 dispatch(toggleLoginPopup());
-                console.log(response.data)
             } catch (error) {
                 console.error('Error fetching user info:', error.message);
             }
@@ -33,6 +37,7 @@ const App = () => {
                 <Register></Register>
                 <Login/>
                 <EditProfile></EditProfile>
+                <FriendRequest></FriendRequest>
                 <Routes>
                     <Route path="/" element={<Home />} />
                 </Routes>

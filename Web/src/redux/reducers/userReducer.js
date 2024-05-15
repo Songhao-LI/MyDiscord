@@ -5,7 +5,8 @@ const initialState = {
         phoneNumber: null,
         password: null,
         isLogin: false
-    }
+    },
+    friendRequests: []  // Initialize friendRequests as a separate array
 };
 
 const userReducer = (state = initialState, action) => {
@@ -23,7 +24,23 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 currentUser: {
                     ...initialState.currentUser
-                }
+                },
+                friendRequests: []  // Clear friendRequests when clearing user
+            };
+        case 'ADD_FRIEND_REQUEST':
+            return {
+                ...state,
+                friendRequests: [...state.friendRequests, action.payload]
+            };
+        case 'REMOVE_FRIEND_REQUEST':
+            return {
+                ...state,
+                friendRequests: state.friendRequests.filter(request => request.id !== action.payload.id)
+            };
+        case 'SET_FRIEND_REQUESTS':
+            return {
+                ...state,
+                friendRequests: action.payload
             };
         default:
             return state;

@@ -45,7 +45,16 @@ class FriendRequestViewSet(viewsets.ModelViewSet):
     serializer_class = FriendRequestSerializer
 
     def list(self, request, *args, **kwargs):
-        friend_requests = self.get_queryset()
+        user_id = request.query_params.get('uID')
+        query = """
+            SELECT * FROM "MyDiscord_friendrequest"
+            WHERE \"receiver_uID_id\" = %s
+        """
+        if not user_id:
+            friend_requests = FriendRequest.objects.raw('SELECT * FROM "MyDiscord_friendrequest"')
+        else:
+            friend_requests = FriendRequest.objects.raw(query, [user_id])
+
         serializer = self.get_serializer(friend_requests, many=True)
         return Response(serializer.data)
 

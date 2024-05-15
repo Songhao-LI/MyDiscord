@@ -15,6 +15,7 @@ const EditProfile = () => {
     const [username, setUsername] = useState(user.username);
     const [profile, setProfile] = useState(user.profile);
     const [photo, setPhoto] = useState(user.photo);
+
     const close = () => {
         dispatch(toggleEditPopup());
     }
@@ -24,6 +25,13 @@ const EditProfile = () => {
     const handlePhotoChange = (event) => {
         setPhoto(event.target.value);
     };
+
+    React.useEffect(() => {
+        setUsername(user.username);
+        setPhoto(user.photo);
+        setProfile(user.profile)
+    }, [user]);
+
     const submit = () => {
         const updateData = {
             profile: profile,
