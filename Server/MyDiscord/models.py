@@ -9,6 +9,6 @@ class User(models.Model):
     password = models.CharField(max_length=100)
     profile = models.TextField()
     photo = models.CharField(max_length=100)
-    home_longitude = models.FloatField()
-    home_latitude = models.FloatField()
-    last_access = models.DateTimeField(auto_now_add=True)
+    home_longitude = models.FloatField(null=True, blank=True)
+    home_latitude = models.FloatField(null=True, blank=True)
+    last_login = models.DateTimeField(auto_now_add=True)  # auto_now_add=True Isn't Working with Raw SQL

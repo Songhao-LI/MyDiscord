@@ -9,7 +9,7 @@ import { toggleLoginPopup, toggleRegisterPopup } from '../../redux/actions/popup
 // eslint-disable-next-line react/prop-types
 const Login = () => {
     const [check, setCheck] = useState(false);
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const user = useSelector(state => state.user.currentUser);
     const loginPopup = useSelector(state => state.popups.showLoginPopup);
@@ -18,16 +18,18 @@ const Login = () => {
     const clickCheckBox = () => {
         setCheck(!check);
     };
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
     };
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
     const loginNow = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/api/login');
+            const response = await axios.post('http://localhost:8000/api/users/login');
             console.log('Login successful:', response.data);
+            dispatch(setUser(response.data.user));
+            console.log(user)
         } catch (error) {
             if (error.response) {
                 console.error('Login failed:', error.response.data);
@@ -79,7 +81,7 @@ const Login = () => {
                                                 <h3 className="mb-3 text-4xl font-extrabold text-dark-grey-900">
                                                     Sign In
                                                 </h3>
-                                                <p className="mb-4 text-slate-400">Enter your email and password</p>
+                                                <p className="mb-4 text-slate-400">Enter your username and password</p>
                                                 <a onClick={googleLogin}
                                                     className="flex items-center justify-center w-full py-4 mb-6 text-sm font-medium transition duration-300 rounded-2xl text-grey-900 bg-green-200 dark:bg-slate-700 hover:bg-grey-400 focus:ring-4 focus:ring-grey-300">
                                                     <img className="h-5 mr-2"
@@ -92,9 +94,9 @@ const Login = () => {
                                                     <p className="mx-4 text-grey-600">or</p>
                                                     <hr className="h-0 border-b border-solid border-grey-500 grow"/>
                                                 </div>
-                                                <label htmlFor="email"
-                                                       className="mb-2 text-sm text-start text-grey-900">Email*</label>
-                                                <input id="email" type="email" placeholder="example@gmail.com" value={email} onChange={handleEmailChange}
+                                                <label htmlFor="username"
+                                                       className="mb-2 text-sm text-start text-grey-900">username*</label>
+                                                <input id="username" type="username" placeholder="Enter your username" value={username} onChange={handleUsernameChange}
                                                        className="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-800 mb-7 placeholder:text-grey-700 bg-gray-200 dark:bg-gray-800 text-dark-grey-900 rounded-2xl"/>
                                                 <label htmlFor="password"
                                                        className="mb-2 text-sm text-start text-grey-900">Password*</label>
