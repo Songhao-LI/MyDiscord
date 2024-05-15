@@ -10,6 +10,7 @@ import {addFriendRequest, setFriendRequests, setUser} from "./redux/actions/user
 import { toggleLoginPopup } from "./redux/actions/popupActions.js";
 import EditProfile from "./components/Popup/EditProfile.jsx";
 import FriendRequest from "./components/Popup/FriendRequest.jsx";
+import RequestSender from "./components/Popup/RequestSender.jsx";
 
 const App = () => {
     const user = useSelector(state => state.user.currentUser);
@@ -35,9 +36,10 @@ const App = () => {
     return (
             <BrowserRouter>
                 <Register></Register>
-                <Login/>
+                <Login></Login>
                 <EditProfile></EditProfile>
                 <FriendRequest></FriendRequest>
+                <RequestSender></RequestSender>
                 <Routes>
                     <Route path="/" element={<Home />} />
                 </Routes>

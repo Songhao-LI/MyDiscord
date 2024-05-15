@@ -3,7 +3,8 @@ const initialState = {
     showLoginPopup: false,
     showRegisterPopup: false,
     showEditPopup: false,
-    showFriendRequestPopup: false
+    showFriendRequestPopup: false,
+    showRequestSenderPopup: false,
 };
 
 const popupReducer = (state = initialState, action) => {
@@ -27,6 +28,11 @@ const popupReducer = (state = initialState, action) => {
             return {
                 ...state,
                 showFriendRequestPopup: !state.showFriendRequestPopup
+            };
+        case 'TOGGLE_SENDER_POPUP':
+            return {
+                ...state,
+                showRequestSenderPopup: !state.showRequestSenderPopup
             };
         default:
             return state;

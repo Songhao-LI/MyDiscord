@@ -32,6 +32,7 @@ const TopNavigation = () => {
     const friendRequestHandler = () => {
         dispatch(toggleFriendsPopup(true));
     }
+
     return (
         <div className='top-navigation'>
             <HashtagIcon/>

@@ -23,3 +23,9 @@ export const toggleFriendsPopup = () => {
         type: 'TOGGLE_FRIENDS_POPUP'
     };
 };
+
+export const toggleSenderPopup = () => {
+    return {
+        type: 'TOGGLE_SENDER_POPUP'
+    };
+};
