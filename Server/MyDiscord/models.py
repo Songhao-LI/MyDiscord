@@ -26,7 +26,6 @@ class Relationship(models.Model):
 class FriendRequest(models.Model):
     sender_uID = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_requests')
     receiver_uID = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_requests')
-    status = models.CharField(max_length=255)
 
     class Meta:
         unique_together = ('sender_uID', 'receiver_uID')
