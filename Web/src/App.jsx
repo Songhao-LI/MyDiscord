@@ -16,8 +16,8 @@ const App = () => {
 
     useEffect(() => {
         const getUserInfo = async () => {
-            try {CSSSkewY
-                const response = await axios.get('http://localhost:8000/api/users');
+            try {
+                const response = await axios.get('/api/users');
                 dispatch(setUser(response.data));
                 dispatch(toggleLoginPopup(true));
                 console.log(response.data)
