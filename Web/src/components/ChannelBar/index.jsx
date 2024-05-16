@@ -7,10 +7,10 @@ import {setMessages} from "../../redux/actions/sessionActions.js";
 
 
 const ChannelBar = () => {
-    const neighbors = [{feed_type: 0, name: 'neighbors1', id: 1}, {feed_type: 0, name: 'neighbors2', id: 2},
-    {feed_type: 0, name: 'neighbors3', id: 3}];
+    const neighbors = [{feed_type: 2, name: 'neighbors1', id: 3}, {feed_type: 1, name: 'neighbors2', id: 3},
+    {feed_type: 0, name: 'neighbors3', id: 2}];
     const friendships  = useSelector(state => state.user.friends);
-    const hoods = [{feed_type: 2, name: 'hood1', id: 1}, {feed_type: 2, name: 'hood2', id: 2}, {feed_type: 2, name: 'hood3', id: 3}];
+    const hoods = [{feed_type: 0, name: 'hood1', id: 1}, {feed_type: 1, name: 'hood2', id: 2}, {feed_type: 2, name: 'hood3', id: 2}];
     const [friends, setFriends] = useState([]); // 使用 useState 管理 friends 状态
 
     const getUserInfo = async () => {
