@@ -91,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'myDiscord',
         'USER': 'postgres',
-        'PASSWORD': 'lsh1209',
+        'PASSWORD': 'Arisu_0325',
         'HOST': 'localhost',
         'PORT': '5432',
     }

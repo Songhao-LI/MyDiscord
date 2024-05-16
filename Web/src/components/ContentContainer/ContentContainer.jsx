@@ -3,11 +3,25 @@ import { BsPlusCircleFill } from 'react-icons/bs';
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import axios from "axios";
+import React, { useEffect } from "react";
 import {addMessage} from "../../redux/actions/sessionActions.js";
 
 const ContentContainer = () => {
     const messages = useSelector(state => state.session.messages);
-    console.log(messages);
+    const [loadedMessages, setLoadedMessages] = useState([]);
+
+    const getUserInfo = async () => {
+        const updatedMessages = [...messages];  // Create a copy of the messages array
+        for (let i = 0; i < updatedMessages.length; i++) {
+            const response = await axios.get('/api/users/' + updatedMessages[i].author_id + '/');
+            updatedMessages[i].name = response.data.username;
+        }
+        setLoadedMessages(updatedMessages);  // Update state with the updated messages
+    };
+
+    useEffect(() => {
+        getUserInfo();
+    }, [messages]);
 
     return (
         <div className='content-container h-screen'>
@@ -50,16 +64,17 @@ const BottomBar = () => {
             try {
                 const response = await axios.post('/api/messages/reply/', {
                     thread_id: thread_id,  // Example thread_id, replace as necessary
-                    title: `Re: Thread ` + thread_id,
+                    title: 'Re: Thread ' + thread_id,
                     text_body: message,
-                    longitude: null,
-                    latitude: null,
+                    longitude: user.home_longitude,
+                    latitude: user.home_latitude,
                     author_id: user.uID
                 });
                 dispatch(addMessage({
                     name: user.username,
                     timestamp: new Date().toLocaleTimeString (),
-                    text_body: message
+                    text_body: message,
+                    author_id: user.uID
                 }))
 
                 console.log("Reply posted:", response.data);

@@ -71,10 +71,7 @@ const ThreadPoster = () => {
             })
             .then(response => {
                 console.log('send request successful:', response.data);
-                dispatch(toggleSenderPopup(false));
-                if ("peed_type") {
-                    dispatch(toggleSenderPopup(fa23));
-                }
+                dispatch(toggleThreadPopup(false));
             })
             .catch(error => {
                 alert('error.response.data.message')
@@ -145,7 +142,7 @@ const ThreadPoster = () => {
 
                                 <div>
                                     <label htmlFor="username"
-                                           className="mb-2 text-sm text-start text-grey-900">Latitude: </label>
+                                           className="mb-2 text-sm text-start text-grey-900">feed_type: </label>
                                     <input
                                         type="username"
                                         value={feed_type}
@@ -156,7 +153,7 @@ const ThreadPoster = () => {
 
                                 <div>
                                     <label htmlFor="username"
-                                           className="mb-2 text-sm text-start text-grey-900">Latitude: </label>
+                                           className="mb-2 text-sm text-start text-grey-900">feed_type_id: </label>
                                     <input
                                         type="username"
                                         value={feed_type_id}
