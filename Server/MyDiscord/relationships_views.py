@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Relationship, FriendRequest, User
 from .serializers import RelationshipSerializer, FriendRequestSerializer
-<<<<<<< HEAD
 from rest_framework.permissions import IsAuthenticated
 from .models import Thread, Message, User
 from .serializers import ThreadSerializer, MessageSerializer
@@ -15,13 +14,12 @@ from django.utils import timezone
 from rest_framework.viewsets import ReadOnlyModelViewSet
 import uuid
 from django.utils import timezone
-=======
 from django.db import connection
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db.models import Q
->>>>>>> 9c91e88ddb7bcf8f606e798495d91da225d30e04
+
 
 
 class RelationshipViewSet(viewsets.ModelViewSet):

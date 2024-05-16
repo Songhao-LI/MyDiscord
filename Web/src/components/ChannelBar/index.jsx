@@ -6,9 +6,9 @@ import axios from "axios";
 
 
 const ChannelBar = () => {
-    const neighbors = [{name: 'neighbors1', id: 1}, {name: 'neighbors2', id: 2}];
+    const neighbors = [{feed_type: 0, name: 'neighbors1', id: 0}, {feed_type: 0, name: 'neighbors2', id: 1}];
     const friendships  = useSelector(state => state.user.friends);
-    const hoods = [{name: 'hood1', id: 1}, {name: 'hood2', id: 2}, {name: 'hood3', id:3}];
+    const hoods = [{feed_type: 2, name: 'hood1', id: 0}, {feed_type: 2, name: 'hood2', id: 1}, {feed_type: 2, name: 'hood3', id: 2}];
     const [friends, setFriends] = useState([]); // 使用 useState 管理 friends 状态
 
     const getUserInfo = async () => {
@@ -16,6 +16,7 @@ const ChannelBar = () => {
         for (let i = 0; i < friendships.length; i++) {
             const response = await axios.get('/api/users/' + friendships[i].toString() + '/');
             friend_info.push({
+                feed_type: 1,
                 name: response.data.username,
                 id: i
             })
@@ -69,12 +70,23 @@ const ChevronIcon = ({ expanded }) => {
   );
 };
 
-const TopicSelection = ({ selection }) => (
-  <div className='dropdown-selection'>
-    <BsHash size='24' className='text-gray-400' />
-    <h5 className='dropdown-selection-text'>{selection.name}</h5>
-  </div>
-);
+const TopicSelection = ({ selection }) => {
+    const handleClick = async () => {
+        const url = `/api/messages/get_message_by_thread/?feed_type=${selection.feed_type}&feed_type_id=${selection.id}`;
+        try {
+            const response = await axios.get(url);
+            console.log("Messages fetched:", response.data);
+        } catch (error) {
+            console.error("Error fetching messages:", error);
+        }
+    };
+    return (
+        <div className='dropdown-selection' onClick={handleClick}>
+            <BsHash size='24' className='text-gray-400' />
+            <h5 className='dropdown-selection-text'>{selection.name}</h5>
+        </div>
+    );
+}
 
 const ChannelBlock = () => (
   <div className='channel-block'>

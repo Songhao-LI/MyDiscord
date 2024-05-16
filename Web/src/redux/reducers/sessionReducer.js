@@ -32,6 +32,16 @@ function sessionReducer(state = initialState, action) {
                 ...state,
                 messages: [...state.messages, action.payload]
             };
+        case 'SET_MESSAGES':
+            return {
+                ...state,
+                messages: action.payload
+            };
+        case 'SET_THREAD_TITLE':
+            return {
+                ...state,
+                thread_title: action.payload
+            };
         default:
             return state;
     }
