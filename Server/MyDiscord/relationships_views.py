@@ -14,6 +14,7 @@ from django.utils import timezone
 from rest_framework.viewsets import ReadOnlyModelViewSet
 import uuid
 from django.utils import timezone
+
 from django.db import connection
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -211,6 +212,9 @@ class MessageViewSet(viewsets.ModelViewSet):
         feed_type = request.query_params.get('feed_type')
         feed_type_id = request.query_params.get('feed_type_id')
 
+        if feed_type is None or feed_type_id is None:
+            return Response({'error': 'feed_type and feed_type_id parameters are required'}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
             with connection.cursor() as cursor:
                 cursor.execute('''
@@ -219,6 +223,9 @@ class MessageViewSet(viewsets.ModelViewSet):
                     WHERE feed_type = %s AND feed_type_id = %s
                 ''', [feed_type, feed_type_id])
                 thread_ids = [row[0] for row in cursor.fetchall()]
+
+                if not thread_ids:
+                    return Response({'message': 'No threads found for the given feed_type and feed_type_id'}, status=status.HTTP_404_NOT_FOUND)
 
                 cursor.execute('''
                     SELECT * FROM "MyDiscord_message"
@@ -241,6 +248,36 @@ class MessageViewSet(viewsets.ModelViewSet):
                 messages_data.append(message_data)
 
             return Response({'thread_ids': thread_ids, 'messages': messages_data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @action(detail=False, methods=['get'], url_path='filter_message')
+    def filter_message(self, request):
+        keyword = request.query_params.get('keyword')
+        if not keyword:
+            return Response({'error': 'Keyword parameter is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute('''
+                    SELECT * FROM "MyDiscord_message"
+                    WHERE text_body LIKE %s
+                ''', ['%' + keyword + '%'])
+                messages = cursor.fetchall()
+            messages_data = []
+            for message in messages:
+                message_data = {
+                    'message_id': message[0],
+                    'title': message[1],
+                    'timestamp': message[2],
+                    'text_body': message[3],
+                    'longitude': message[4],
+                    'latitude': message[5],
+                    'author_id': message[6],
+                    'thread_id': message[7]
+                }
+                messages_data.append(message_data)
+            return Response({'messages': messages_data}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
