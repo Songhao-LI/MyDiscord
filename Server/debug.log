@@ -12562,3 +12562,21 @@ File C:\Python312\Lib\site-packages\rest_framework\authtoken\migrations\__init__
 File C:\Python312\Lib\site-packages\django\db\migrations\recorder.py first seen with mtime 1715438841.4546995
 File C:\Python312\Lib\site-packages\rest_framework\authtoken\migrations\0003_tokenproxy.py first seen with mtime 1715440388.7873065
 File C:\Python312\Lib\site-packages\django\middleware\clickjacking.py first seen with mtime 1715438841.504772
+Not Found: /api/users/current/
+"GET /api/users/current/ HTTP/1.1" 404 29
+Not Found: /api/users/current/
+"GET /api/users/current/ HTTP/1.1" 404 29
+File C:\Python312\Lib\site-packages\django\contrib\messages\storage\fallback.py first seen with mtime 1715438841.0901606
+File C:\Python312\Lib\site-packages\django\contrib\messages\storage\session.py first seen with mtime 1715438841.0901606
+File C:\Python312\Lib\site-packages\django\contrib\messages\storage\cookie.py first seen with mtime 1715438841.0891604
+File C:\Python312\Lib\site-packages\django\contrib\sessions\serializers.py first seen with mtime 1715438841.2316222
+Not Found: /api/users/current/
+"GET /api/users/current/ HTTP/1.1" 404 29
+Not Found: /api/users/current/
+"GET /api/users/current/ HTTP/1.1" 404 29
+Not Found: /api/users/current/
+"GET /api/users/current/ HTTP/1.1" 404 29
+Not Found: /api/users/current/
+"GET /api/users/current/ HTTP/1.1" 404 29
+Not Found: /api/users/current/
+"GET /api/users/current/ HTTP/1.1" 404 29

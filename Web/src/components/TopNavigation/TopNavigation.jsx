@@ -12,6 +12,7 @@ import Button from "../Shared/Button.jsx";
 import {toggleEditPopup, toggleFriendsPopup, toggleLoginPopup} from "../../redux/actions/popupActions.js";
 import axios from "axios";
 import {clearUser} from "../../redux/actions/userActions.js";
+import {useState} from "react";
 
 const TopNavigation = () => {
     const current_user = useSelector(state => state.user.currentUser);
@@ -112,12 +113,32 @@ const ThemeIcon = () => {
     );
 };
 
-const Search = () => (
-    <div className='search'>
-        <input className='search-input' type='text' placeholder='Search...'/>
-        <FaSearch size='18' className='text-secondary my-auto'/>
-    </div>
-);
+const Search = () => {
+    const [keyword, setKeyword] = useState(''); // State to hold the input value
+    const handleInputChange = (event) => {
+        setKeyword(event.target.value); // Update the state with the input value
+    };
+    const handleKeyPress = async (event) => {
+        if (event.key === 'Enter' && keyword.trim() !== '') {
+            // Check if Enter was pressed and keyword is not just whitespace
+            try {
+                const response = await axios.get(`/api/messages/filter_message/?keyword=${encodeURIComponent(keyword)}`);
+                console.log("Search results:", response.data);
+                setKeyword(''); // Optionally clear the input after search
+            } catch (error) {
+                console.error("Error during search:", error);
+            }
+        }
+    };
+    return (
+        <div className='search'>
+            <input className='search-input' type='text' value={keyword}
+                   onChange={handleInputChange}
+                   onKeyPress={handleKeyPress} placeholder='Search...'/>
+            <FaSearch size='18' className='text-secondary my-auto'/>
+        </div>
+        )
+    }
 const BellIcon = () => <FaRegBell size='24' className='top-navigation-icon'/>;
 const UserCircle = () => <FaUserCircle size='24' className='top-navigation-icon'/>;
 const HashtagIcon = () => <FaHashtag size='20' className='title-hashtag'/>;
