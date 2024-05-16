@@ -1,6 +1,7 @@
 import { BsPlus, BsFillLightningFill, BsGearFill } from 'react-icons/bs';
 import { FaFire, FaPoo } from 'react-icons/fa';
 import { SlUserFollow } from "react-icons/sl";
+import { MdAssignmentAdd } from "react-icons/md";
 import {toggleSenderPopup} from "../../redux/actions/popupActions.js";
 import {useDispatch} from "react-redux";
 
@@ -15,8 +16,9 @@ const SideBar = () => {
                   bg-white dark:bg-gray-900 shadow-lg">
         <SideBarIcon icon={<FaFire size="28" />} text={'Home'}/>
         <Divider />
-        <SideBarIcon icon={<BsPlus size="32" />} text={'Send friend request'} handler={friendRequestHandler}/>
-        <SideBarIcon icon={<SlUserFollow size="25"/>} text={'Join a block'}/>
+        <SideBarIcon icon={<BsPlus size="32" />} text={'Send Friend Request'} handler={friendRequestHandler}/>
+        <SideBarIcon icon={<SlUserFollow size="25"/>} text={'Join a Block'}/>
+        <SideBarIcon icon={<MdAssignmentAdd size="25"/>} text={'Create new Thread'}/>
         <Divider />
         <SideBarIcon icon={<BsGearFill size="22" />} />
     </div>
