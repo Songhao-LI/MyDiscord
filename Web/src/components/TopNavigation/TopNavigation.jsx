@@ -144,7 +144,7 @@ const UserCircle = () => <FaUserCircle size='24' className='top-navigation-icon'
 const HashtagIcon = () => <FaHashtag size='20' className='title-hashtag'/>;
 const Title = () => {
     const title = useSelector(state => state.session.thread_title)
-    return (<h5 className='title-text'>{title}</h5>);
+    return (<h5 className='title-text'>{'Thread: ' + title}</h5>);
 }
 
 export default TopNavigation;
