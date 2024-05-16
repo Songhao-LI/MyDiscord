@@ -52,3 +52,13 @@ export const removeFriend = requestId => {
         payload: {id: requestId}
     };
 };
+
+export const addNeighbor = (neighbor) => ({
+    type: 'ADD_NEIGHBOR',
+    payload: neighbor
+});
+
+export const addHood = (hoods) => ({
+    type: 'ADD_HOODS',
+    payload: hoods
+});

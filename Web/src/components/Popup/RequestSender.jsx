@@ -19,9 +19,9 @@ const RequestSender = () => {
         setUserID(event.target.value);
     };
     const submit = () => {
-        axios.post(`http://localhost:8000/api/friendrequests/`, {
+        axios.post(`/api/friendrequests/`, {
             "sender_uID": user.uID,
-            "receiver_uID": uID
+            "receiver_uID": Number(uID)
         })
             .then(response => {
                 console.log('send request successful:', response.data);

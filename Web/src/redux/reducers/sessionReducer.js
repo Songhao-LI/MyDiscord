@@ -22,7 +22,9 @@ const initialState = {
             text_body: 'Good Job!'
         }
     ],
-    thread_title: 'neighbors 1'
+    thread_title: 'Home',
+    cur_type: null,
+    cur_index: null
 };
 
 function sessionReducer(state = initialState, action) {
@@ -41,6 +43,16 @@ function sessionReducer(state = initialState, action) {
             return {
                 ...state,
                 thread_title: action.payload
+            };
+        case 'SET_CUR_TYPE':
+            return {
+                ...state,
+                cur_type: action.payload
+            };
+        case 'SET_CUR_ID':
+            return {
+                ...state,
+                cur_index: action.payload
             };
         default:
             return state;

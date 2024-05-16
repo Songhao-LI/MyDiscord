@@ -29,12 +29,21 @@ const Divider = () => <hr className="sidebar-hr"/>;
 const BottomBar = () => {
     const user = useSelector(state => state.user.currentUser);
     const thread_id = useSelector(state => state.session.thread_title);
-    const [permission, setPermission] = useState(true);
+    const cur_type = useSelector(state => state.session.cur_type);
+    const cur_id = useSelector(state => state.session.cur_index);
+    const [permission, setPermission] = useState(false);
     const [message, setMessage] = useState('');  // State to store the input value
     const dispatch = useDispatch();
     const handleInputChange = (event) => {
         setMessage(event.target.value);
     };
+
+    if (cur_type === 2 && user.hood_id === cur_id) {
+        setPermission(true)
+    }
+    if (cur_type === 0 && user.block_id === cur_id) {
+        setPermission(true)
+    }
 
     const handleKeyPress = async (event) => {
         if (event.key === 'Enter' && message.trim() !== '') {

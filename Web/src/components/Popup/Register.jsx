@@ -11,6 +11,8 @@ const Register = () => {
     const [photo, setPhoto] = useState("");
     const [password, setPassword] = useState("");
     const [longitude, setLongitude] = useState(null);
+    const [hood_id, setHood_id] = useState(null);
+    const [block_id, setBlock_id] = useState(null);
     const [latitude, setLatitude] = useState(null);
     const registerPopup = useSelector(state => state.popups.showRegisterPopup);
     const dispatch = useDispatch();
@@ -33,11 +35,17 @@ const Register = () => {
     const handleLatitudeChange = (event) => {
         setLatitude(event.target.value);
     };
+    const handleBlockChange = (event) => {
+        setBlock_id(event.target.value);
+    };
+    const handleHoodChange = (event) => {
+        setHood_id(event.target.value);
+    };
 
     const registerNow = () => {
         axios.post('/api/users/', {
-            block_id: null,
-            hood_id: null,
+            block_id: Number(block_id),
+            hood_id: Number(hood_id),
             username: name,
             password: password,
             profile: profile,
@@ -76,7 +84,7 @@ const Register = () => {
                 <div>
                     <div className="h-screen w-screen fixed top-0 left-0 bg-black/50 z-50 backdrop-blur-sm">
                         <div
-                            className="w-[800px] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 rounded-xl">
+                            className="w-[800px] fixed max-h-[80%] overflow-y-scroll scrollbar-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 rounded-xl">
                             {/* Header secton */}
                             <div className="flex items-center flex-row-reverse">
                                 <div>
@@ -90,7 +98,7 @@ const Register = () => {
                             {/* main secton */}
                             <div className="container flex flex-col mx-auto rounded-lg pt-12">
                                 <div className="flex justify-center w-full h-full my-auto xl:gap-14 lg:justify-normal md:gap-5 draggable">
-                                    <div className="flex items-center justify-center w-full lg:p-12">
+                                    <div className="flex items-center justify-center w-full lg:p-12 ">
                                         <div className="flex items-center xl:p-10">
                                             <form
                                                 className="flex flex-col w-full h-full pb-6 text-center rounded-3xl">
@@ -133,14 +141,29 @@ const Register = () => {
                                                        className="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-800 mb-7 placeholder:text-grey-700 bg-gray-200 dark:bg-gray-800 text-dark-grey-900 rounded-2xl"/>
                                                 <label
                                                     className="mb-2 text-sm text-start text-grey-900">Longitude(optional)</label>
-                                                <input type="number" id="longitude" placeholder="Enter your home longitude"
+                                                <input type="number" id="longitude"
+                                                       placeholder="Enter your home longitude"
                                                        value={longitude} onChange={handleLongitudeChange}
                                                        className="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-800 mb-7 placeholder:text-grey-700 bg-gray-200 dark:bg-gray-800 text-dark-grey-900 rounded-2xl"/>
                                                 <label
                                                     className="mb-2 text-sm text-start text-grey-900">Latitude(optional)</label>
-                                                <input type="number" id="longitude" placeholder="Enter your home longitude"
+                                                <input type="number" id="longitude"
+                                                       placeholder="Enter your home longitude"
                                                        value={latitude} onChange={handleLatitudeChange}
                                                        className="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-800 mb-7 placeholder:text-grey-700 bg-gray-200 dark:bg-gray-800 text-dark-grey-900 rounded-2xl"/>
+                                                <label
+                                                    className="mb-2 text-sm text-start text-grey-900">Block id</label>
+                                                <input type="number" id="longitude"
+                                                       placeholder="Enter your block_id"
+                                                       value={block_id} onChange={handleBlockChange}
+                                                       className="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-800 mb-7 placeholder:text-grey-700 bg-gray-200 dark:bg-gray-800 text-dark-grey-900 rounded-2xl"/>
+                                                <label
+                                                    className="mb-2 text-sm text-start text-grey-900">Hood id</label>
+                                                <input type="number" id="longitude"
+                                                       placeholder="Enter your hood_id"
+                                                       value={hood_id} onChange={handleHoodChange}
+                                                       className="flex items-center w-full px-5 py-4 mr-2 text-sm font-medium outline-none focus:bg-grey-800 mb-7 placeholder:text-grey-700 bg-gray-200 dark:bg-gray-800 text-dark-grey-900 rounded-2xl"/>
+
                                                 <button onClick={registerNow} type="button"
                                                         className="w-full px-6 py-5 mt-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-primary">
                                                     Sign Up

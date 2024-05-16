@@ -3,15 +3,14 @@ import { BsHash } from 'react-icons/bs';
 import { FaChevronDown, FaChevronRight, FaPlus } from 'react-icons/fa';
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
-import {setMessages, setThreadTitle} from "../../redux/actions/sessionActions.js";
+import {setCurIndex, setCurType, setMessages, setThreadTitle} from "../../redux/actions/sessionActions.js";
 
 
 const ChannelBar = () => {
-    const neighbors = [{feed_type: 0, name: 'neighbors1', id: 1}, {feed_type: 0, name: 'neighbors2', id: 2},
-    {feed_type: 0, name: 'neighbors3', id: 3}];
+    const neighbors = useSelector(state => state.user.neighbors);
     const friendships  = useSelector(state => state.user.friends);
-    const hoods = [{feed_type: 2, name: 'hood1', id: 1}, {feed_type: 2, name: 'hood2', id: 2}, {feed_type: 2, name: 'hood3', id: 3}];
-    const [friends, setFriends] = useState([]); // 使用 useState 管理 friends 状态
+    const hoods = useSelector(state => state.user.hoods);
+    const [friends, setFriends] = useState([]);
 
     const getUserInfo = async () => {
         const friend_info = []
@@ -81,6 +80,9 @@ const TopicSelection = ({ selection }) => {
             console.log("Messages fetched:", response.data);
             dispatch(setMessages(response.data.messages));
             dispatch(setThreadTitle(response.data.thread_ids))
+
+            dispatch(setCurType(selection.feed_type));
+            dispatch(setCurIndex(selection.feed_type_id));
         } catch (error) {
             console.error("Error fetching messages:", error);
         }

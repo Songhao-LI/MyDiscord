@@ -9,12 +9,15 @@ import {
     toggleThreadPopup
 } from "../../redux/actions/popupActions.js";
 import axios from "axios";
+import {addHood, addNeighbor} from "../../redux/actions/userActions.js";
 
 // eslint-disable-next-line react/prop-types
 const ThreadPoster = () => {
     const showThreadPopup = useSelector(state => state.popups.showThreadPopup);
     const dispatch = useDispatch();
     const user = useSelector(state => state.user.currentUser);
+    const hoods = useSelector(state => state.user.hoods);
+    const neighbors = useSelector(state => state.user.hoods);
     const [title, setTitle] = useState("");
     const [text_body, setTextBody] = useState("");
     const [longitude, setLongitude] = useState(null);
@@ -44,6 +47,19 @@ const ThreadPoster = () => {
         setFeedTypeId(event.target.value);
     };
     const submit = () => {
+        if (Number(feed_type) === 0) {
+            const sz = neighbors.length
+            dispatch(addNeighbor({
+                id: sz,
+                name: title
+            }))
+        } else if (Number(feed_type) === 2) {
+            const sz = hoods.length
+            dispatch(addHood({
+                id: sz,
+                name: title
+            }))
+        }
         axios.post(`/api/messages/create_thread/`, {
                 "title": title,
                 "text_body": text_body,
@@ -56,6 +72,9 @@ const ThreadPoster = () => {
             .then(response => {
                 console.log('send request successful:', response.data);
                 dispatch(toggleSenderPopup(false));
+                if ("peed_type") {
+                    dispatch(toggleSenderPopup(fa23));
+                }
             })
             .catch(error => {
                 alert('error.response.data.message')

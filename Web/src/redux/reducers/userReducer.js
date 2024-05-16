@@ -7,7 +7,9 @@ const initialState = {
         isLogin: false
     },
     friendRequests: [],
-    friends: []
+    friends: [],
+    neighbors: [{feed_type: 0, name: 'neighbors1', id: 1}, {feed_type: 0, name: 'neighbors2', id: 2}, {feed_type: 0, name: 'neighbors3', id: 3}],
+    hoods: [{feed_type: 2, name: 'hood1', id: 1}, {feed_type: 2, name: 'hood2', id: 2}, {feed_type: 2, name: 'hood3', id: 3}]
 };
 
 const userReducer = (state = initialState, action) => {
@@ -56,6 +58,16 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 friends: action.payload
+            };
+        case 'ADD_NEIGHBOR':
+            return {
+                ...state,
+                neighbors: [...state.neighbors, action.payload]
+            };
+        case 'ADD_HOOD':
+            return {
+                ...state,
+                hoods: [...state.hoods, action.payload]
             };
         default:
             return state;
