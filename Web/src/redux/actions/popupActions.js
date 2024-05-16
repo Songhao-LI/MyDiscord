@@ -29,3 +29,9 @@ export const toggleSenderPopup = () => {
         type: 'TOGGLE_SENDER_POPUP'
     };
 };
+
+export const toggleThreadPopup = () => {
+    return {
+        type: 'TOGGLE_THREAD_POPUP'
+    };
+};

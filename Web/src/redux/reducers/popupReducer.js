@@ -5,6 +5,7 @@ const initialState = {
     showEditPopup: false,
     showFriendRequestPopup: false,
     showRequestSenderPopup: false,
+    showThreadPopup: false
 };
 
 const popupReducer = (state = initialState, action) => {
@@ -33,6 +34,11 @@ const popupReducer = (state = initialState, action) => {
             return {
                 ...state,
                 showRequestSenderPopup: !state.showRequestSenderPopup
+            };
+        case 'TOGGLE_THREAD_POPUP':
+            return {
+                ...state,
+                showThreadPopup: !state.showThreadPopup
             };
         default:
             return state;

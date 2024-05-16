@@ -1,7 +1,9 @@
 import TopNavigation from '../TopNavigation/TopNavigation.jsx';
 import { BsPlusCircleFill } from 'react-icons/bs';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
+import axios from "axios";
+import {addMessage} from "../../redux/actions/sessionActions.js";
 
 const ContentContainer = () => {
     const messages = useSelector(state => state.session.messages);
@@ -26,14 +28,45 @@ const ContentContainer = () => {
 const Divider = () => <hr className="sidebar-hr"/>;
 const BottomBar = () => {
     const user = useSelector(state => state.user.currentUser);
+    const thread_id = useSelector(state => state.session.thread_title);
     const [permission, setPermission] = useState(true);
+    const [message, setMessage] = useState('');  // State to store the input value
+    const dispatch = useDispatch();
+    const handleInputChange = (event) => {
+        setMessage(event.target.value);
+    };
+
+    const handleKeyPress = async (event) => {
+        if (event.key === 'Enter' && message.trim() !== '') {
+            try {
+                const response = await axios.post('/api/messages/reply/', {
+                    thread_id: thread_id,  // Example thread_id, replace as necessary
+                    title: `Re: Thread ` + thread_id,
+                    text_body: message,
+                    longitude: null,
+                    latitude: null,
+                    author_id: user.uID
+                });
+                dispatch(addMessage({
+                    name: user.username,
+                    timestamp: new Date().toLocaleTimeString (),
+                    text_body: message
+                }))
+
+                console.log("Reply posted:", response.data);
+                setMessage('');  // Clear input after sending
+            } catch (error) {
+                console.error("Error posting reply:", error);
+            }
+        }
+    };
     // TODO: permission
     return (
         <>
         {permission && (
         <div className='bottom-bar flex items-center'>
             <PlusIcon />
-            <input type='text' placeholder='Enter message...' className='bottom-bar-input flex-1 p-2' />
+            <input type='text' placeholder='Enter message...' className='bottom-bar-input flex-1 p-2' value={message} onChange={handleInputChange} onKeyPress={handleKeyPress}/>
         </div>
         )}
         </>
