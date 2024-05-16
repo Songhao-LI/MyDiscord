@@ -2,13 +2,16 @@ import { BsPlus, BsFillLightningFill, BsGearFill } from 'react-icons/bs';
 import { FaFire, FaPoo } from 'react-icons/fa';
 import { SlUserFollow } from "react-icons/sl";
 import { MdAssignmentAdd } from "react-icons/md";
-import {toggleSenderPopup} from "../../redux/actions/popupActions.js";
+import {toggleSenderPopup, toggleThreadPopup} from "../../redux/actions/popupActions.js";
 import {useDispatch} from "react-redux";
 
 const SideBar = () => {
     const dispatch = useDispatch();
     const friendRequestHandler = () => {
         dispatch(toggleSenderPopup(true));
+    }
+    const createThread = () => {
+        dispatch(toggleThreadPopup(true));
     }
 
   return (
@@ -18,7 +21,7 @@ const SideBar = () => {
         <Divider />
         <SideBarIcon icon={<BsPlus size="32" />} text={'Send Friend Request'} handler={friendRequestHandler}/>
         <SideBarIcon icon={<SlUserFollow size="25"/>} text={'Join a Block'}/>
-        <SideBarIcon icon={<MdAssignmentAdd size="25"/>} text={'Create new Thread'}/>
+        <SideBarIcon icon={<MdAssignmentAdd size="25"/>} text={'Create new Thread'} handler={createThread}/>
         <Divider />
         <SideBarIcon icon={<BsGearFill size="22" />} />
     </div>

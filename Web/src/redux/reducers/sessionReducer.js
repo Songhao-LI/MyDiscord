@@ -4,22 +4,22 @@ const initialState = {
         {
             name: 'Ryan',
             timestamp: 'one week ago',
-            text: 'test message 1. test message 1.test message 1.test message 1.test message 1.test message 1.'
+            text_body: 'test message 1. test message 1.test message 1.test message 1.test message 1.test message 1.'
         },
         {
             name: 'Rocky',
             timestamp: 'one week ago',
-            text: 'test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.'
+            text_body: 'test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.'
         },
         {
             name: 'Priyanshi',
             timestamp: '5 days ago',
-            text: 'test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.'
+            text_body: 'test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.'
         },
         {
             name: 'Torsten Suel',
             timestamp: 'Just now',
-            text: 'Good Job!'
+            text_body: 'Good Job!'
         }
     ],
     thread_title: 'neighbors 1'

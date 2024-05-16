@@ -3,7 +3,7 @@ import { BsHash } from 'react-icons/bs';
 import { FaChevronDown, FaChevronRight, FaPlus } from 'react-icons/fa';
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
-import {setMessages} from "../../redux/actions/sessionActions.js";
+import {setMessages, setThreadTitle} from "../../redux/actions/sessionActions.js";
 
 
 const ChannelBar = () => {
@@ -80,6 +80,7 @@ const TopicSelection = ({ selection }) => {
             const response = await axios.get(url);
             console.log("Messages fetched:", response.data);
             dispatch(setMessages(response.data.messages));
+            dispatch(setThreadTitle(response.data.thread_ids))
         } catch (error) {
             console.error("Error fetching messages:", error);
         }

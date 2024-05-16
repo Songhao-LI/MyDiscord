@@ -11,6 +11,7 @@ import { toggleLoginPopup } from "./redux/actions/popupActions.js";
 import EditProfile from "./components/Popup/EditProfile.jsx";
 import FriendRequest from "./components/Popup/FriendRequest.jsx";
 import RequestSender from "./components/Popup/RequestSender.jsx";
+import ThreadPoster from "./components/Popup/ThreadPoster.jsx";
 
 const App = () => {
     const user = useSelector(state => state.user.currentUser);
@@ -37,6 +38,7 @@ const App = () => {
     }, []);
     return (
             <BrowserRouter>
+                <ThreadPoster></ThreadPoster>
                 <Register></Register>
                 <Login></Login>
                 <EditProfile></EditProfile>
