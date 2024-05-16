@@ -1,0 +1,42 @@
+Index: Server/MyDiscord/views.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.shortcuts import render\r\nfrom django.contrib.auth import login\r\nfrom django.contrib.auth.hashers import check_password, make_password\r\nfrom django.db import connection\r\nfrom rest_framework import status, viewsets\r\nfrom rest_framework.decorators import action\r\nfrom rest_framework.response import Response\r\nfrom .models import User\r\nfrom .serializers import UserSerializer\r\nfrom django.utils import timezone\r\nfrom rest_framework.authtoken.models import Token\r\nfrom rest_framework.permissions import IsAuthenticated\r\n\r\ncurrent_user = None\r\n\r\n\r\nclass UserViewSet(viewsets.ModelViewSet):\r\n    queryset = User.objects.all()\r\n    serializer_class = UserSerializer\r\n\r\n    def list(self, request, *args, **kwargs):\r\n        raw_query = 'SELECT * FROM \"MyDiscord_user\"'\r\n        rows = User.objects.raw(raw_query)\r\n\r\n        if rows:\r\n            serializer = self.get_serializer(rows, many=True)\r\n            return Response(serializer.data)\r\n        else:\r\n            return Response({'data': [], 'message': 'No users found'}, status=status.HTTP_200_OK)\r\n\r\n    # register\r\n    def create(self, request, *args, **kwargs):\r\n        serializer = self.get_serializer(data=request.data)\r\n        if serializer.is_valid():\r\n            # SQL to insert a new user\r\n            with connection.cursor() as cursor:\r\n                cursor.execute('''\r\n                INSERT INTO \"MyDiscord_user\" (username, password, block_id, hood_id, profile, photo, home_longitude, home_latitude, last_login)\r\n                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)\r\n            ''', [\r\n                    serializer.validated_data['username'],\r\n                    make_password(serializer.validated_data['password']),\r\n                    serializer.validated_data.get('block_id', None),\r\n                    serializer.validated_data.get('hood_id', None),\r\n                    serializer.validated_data['profile'],\r\n                    serializer.validated_data['photo'],\r\n                    serializer.validated_data.get('home_longitude', None),\r\n                    serializer.validated_data.get('home_latitude', None),\r\n                    timezone.now()  # Manually setting the current timestamp\r\n                ])\r\n                return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)\r\n        else:\r\n            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\r\n\r\n    @action(detail=False, methods=['post'])\r\n    def login(self, request):\r\n        global current_user\r\n        username = request.data.get('username')\r\n        password = request.data.get('password')\r\n\r\n        with connection.cursor() as cursor:\r\n            cursor.execute(\"SELECT \\\"uID\\\", password FROM \\\"MyDiscord_user\\\" WHERE username = %s\", [username])\r\n            user = cursor.fetchone()\r\n\r\n        if user:\r\n            user_id, hashed_password = user\r\n            if check_password(password, hashed_password):\r\n                # TODO: token, created = Token.objects.get_or_create(user=current_user)\r\n                current_user = User.objects.get(pk=user_id)\r\n                login(request, current_user)  # This handles the session\r\n                serializer = self.get_serializer(current_user)\r\n                return Response({\r\n                    'message': 'Login successful',\r\n                    'user': serializer.data\r\n                }, status=status.HTTP_200_OK)\r\n            else:\r\n                return Response({\"error\": \"Invalid password\"}, status=status.HTTP_401_UNAUTHORIZED)\r\n        else:\r\n            return Response({\"error\": \"Invalid username\"}, status=status.HTTP_404_NOT_FOUND)\r\n\r\n    @action(detail=False, methods=['post'])\r\n    def logout(self, request):\r\n        global current_user\r\n        current_user = None\r\n        return Response({\"message\": \"Logout successful\"}, status=status.HTTP_200_OK)\r\n\r\n    # TODO: permission_classes=[IsAuthenticated]\r\n    @action(detail=False, methods=['get'])\r\n    def current(self, request):\r\n        global current_user\r\n        if current_user:\r\n            serializer = self.get_serializer(current_user)\r\n            return Response(serializer.data)\r\n        else:\r\n            return Response({\"error\": \"No user logged in\"}, status=status.HTTP_404_NOT_FOUND)\r\n\r\n\r\n\r\n
+===================================================================
+diff --git a/Server/MyDiscord/views.py b/Server/MyDiscord/views.py
+--- a/Server/MyDiscord/views.py	
++++ b/Server/MyDiscord/views.py	
+@@ -10,6 +10,8 @@
+ from django.utils import timezone
+ from rest_framework.authtoken.models import Token
+ from rest_framework.permissions import IsAuthenticated
++from .models import User, Thread, Message
++from .serializers import UserSerializer, MessageSerializer, ThreadSerializer
+ 
+ current_user = None
+ 
+@@ -95,4 +97,24 @@
+             return Response({"error": "No user logged in"}, status=status.HTTP_404_NOT_FOUND)
+ 
+ 
++class ThreadViewSet(viewsets.ModelViewSet):
++    queryset = Thread.objects.all()
++    serializer_class = ThreadSerializer
++
++
++class MessageViewSet(viewsets.ModelViewSet):
++    queryset = Message.objects.all()
++    serializer_class = MessageSerializer
++
++    def perform_create(self, serializer):
++        # Use the authenticated user as the author
++        serializer.save(author_id=self.request.user)
++
++        # Check if thread_id is provided; if not, create a new thread
++        thread = serializer.validated_data.get('thread_id')
++        if thread is None:
++            new_thread = Thread.objects.create()
++            serializer.instance.thread_id = new_thread
++            new_thread.initial_message_id = serializer.instance
++            new_thread.save()
+ 

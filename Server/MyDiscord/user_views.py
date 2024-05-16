@@ -12,6 +12,10 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 
+from rest_framework import permissions
+from .models import Thread, Message
+from .serializers import MessageSerializer, ThreadSerializer
+
 current_user = None
 
 
@@ -68,7 +72,8 @@ class UserViewSet(viewsets.ModelViewSet):
             if check_password(password, hashed_password):
                 # TODO: token, created = Token.objects.get_or_create(user=current_user)
                 with connection.cursor() as cursor:
-                    cursor.execute("UPDATE \"MyDiscord_user\" SET last_login = %s WHERE \"uID\" = %s", [timezone.now(), user_id])
+                    cursor.execute("UPDATE \"MyDiscord_user\" SET last_login = %s WHERE \"uID\" = %s",
+                                   [timezone.now(), user_id])
 
                 current_user = User.objects.get(pk=user_id)
                 login(request, current_user)  # This handles the session
