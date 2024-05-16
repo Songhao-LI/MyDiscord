@@ -1,31 +1,22 @@
 import TopNavigation from '../TopNavigation/TopNavigation.jsx';
 import { BsPlusCircleFill } from 'react-icons/bs';
+import {useSelector} from "react-redux";
+import {useState} from "react";
 
 const ContentContainer = () => {
+    const messages = useSelector(state => state.session.messages);
+    console.log(messages);
+
     return (
         <div className='content-container h-screen'>
             <TopNavigation />
             <div className='content-list hide-scrollbar space-y-6 pl-0 mt-3'> {/* Adjust left padding here */}
-                <Post
-                    name='Ryan'
-                    timestamp='one week ago'
-                    text={`test message 1. test message 1.test message 1.test message 1.test message 1.test message 1.`}
-                />
-                <div
-                    className='w-full bg-gray-200 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full'/>
-                <Post name='Rocky' timestamp='one week ago'
-                      text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`}/>
-                <div
-                    className='w-full bg-gray-200 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full'/>
-                <Post name='Priyanshi' timestamp='5 days ago'
-                      text={`test message 1.test message 1.test message 1.test message 1.test message 1.test message 1.`}/>
-                <div
-                    className='w-full bg-gray-200 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full'/>
-                <Post
-                    name='Torsten Suel'
-                    timestamp='Just now'
-                    text={`Good Job!`}
-                />
+                {messages.map((msg, index) => (
+                    <>
+                        <Post name={msg.name} timestamp={msg.timestamp} text={msg.text} />
+                        <div className='w-full bg-gray-200 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full'/>
+                    </>
+                ))}
             </div>
             <BottomBar/>
         </div>
@@ -33,12 +24,21 @@ const ContentContainer = () => {
 };
 
 const Divider = () => <hr className="sidebar-hr"/>;
-const BottomBar = () => (
-    <div className='bottom-bar flex items-center'>
-        <PlusIcon />
-        <input type='text' placeholder='Enter message...' className='bottom-bar-input flex-1 p-2' />
-    </div>
-);
+const BottomBar = () => {
+    const user = useSelector(state => state.user.currentUser);
+    const [permission, setPermission] = useState(true);
+    // TODO: permission
+    return (
+        <>
+        {permission && (
+        <div className='bottom-bar flex items-center'>
+            <PlusIcon />
+            <input type='text' placeholder='Enter message...' className='bottom-bar-input flex-1 p-2' />
+        </div>
+        )}
+        </>
+    );
+}
 
 const Post = ({ name, timestamp, text }) => {
     const seed = Math.round(Math.random() * 100);

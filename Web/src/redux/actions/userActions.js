@@ -31,3 +31,24 @@ export const removeFriendRequest = requestId => {
         payload: {id: requestId}
     };
 };
+
+export const addFriend = request => {
+    return {
+        type: 'ADD_FRIEND',
+        payload: request
+    };
+};
+
+export const setFriend= requests => {
+    return {
+        type: 'SET_FRIEND',
+        payload: requests
+    };
+};
+
+export const removeFriend = requestId => {
+    return {
+        type: 'REMOVE_FRIEND',
+        payload: {id: requestId}
+    };
+};

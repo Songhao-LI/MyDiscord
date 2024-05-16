@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -7,6 +8,7 @@ from django.db import connection
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.db.models import Q
 
 
 class RelationshipViewSet(viewsets.ModelViewSet):
@@ -38,6 +40,21 @@ class RelationshipViewSet(viewsets.ModelViewSet):
             ''', [uID_1, uID_2, relation])
 
         return Response({'message': 'Relationship created successfully'}, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['get'])
+    def friends(self, request, pk=None):
+        if not pk:
+            return Response({'error': 'Please provide user ID'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # 获取所有朋友，当前用户是 uID_1 或 uID_2
+        friends = Relationship.objects.filter(
+            Q(uID_1_id=pk) | Q(uID_2_id=pk)
+        ).values_list('uID_1_id', 'uID_2_id')
+
+        # 去重并排除用户自己的 ID
+        friend_ids = {uid for pair in friends for uid in pair if uid != int(pk)}
+
+        return Response({'data': list(friend_ids), 'message': 'OK'}, status=status.HTTP_200_OK)
 
 
 class FriendRequestViewSet(viewsets.ModelViewSet):

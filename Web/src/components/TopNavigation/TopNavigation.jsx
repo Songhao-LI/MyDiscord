@@ -121,6 +121,9 @@ const Search = () => (
 const BellIcon = () => <FaRegBell size='24' className='top-navigation-icon'/>;
 const UserCircle = () => <FaUserCircle size='24' className='top-navigation-icon'/>;
 const HashtagIcon = () => <FaHashtag size='20' className='title-hashtag'/>;
-const Title = () => <h5 className='title-text'>neighbors1</h5>;
+const Title = () => {
+    const title = useSelector(state => state.session.thread_title)
+    return (<h5 className='title-text'>{title}</h5>);
+}
 
 export default TopNavigation;
