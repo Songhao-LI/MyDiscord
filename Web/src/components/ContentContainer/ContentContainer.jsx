@@ -13,7 +13,7 @@ const ContentContainer = () => {
             <div className='content-list hide-scrollbar space-y-6 pl-0 mt-3'> {/* Adjust left padding here */}
                 {messages.map((msg, index) => (
                     <>
-                        <Post name={msg.name} timestamp={msg.timestamp} text={msg.text} />
+                        <Post name={msg.name} timestamp={msg.timestamp} text={msg.text_body} />
                         <div className='w-full bg-gray-200 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full'/>
                     </>
                 ))}

@@ -222,15 +222,17 @@ class MessageViewSet(viewsets.ModelViewSet):
                     FROM "MyDiscord_thread"
                     WHERE feed_type = %s AND feed_type_id = %s
                 ''', [feed_type, feed_type_id])
-                thread_ids = [row[0] for row in cursor.fetchall()]
+                result = cursor.fetchone()
 
-                if not thread_ids:
-                    return Response({'message': 'No threads found for the given feed_type and feed_type_id'}, status=status.HTTP_404_NOT_FOUND)
+                if not result:
+                    return Response({'thread_id': None, 'messages': []}, status=status.HTTP_200_OK)
+
+                thread_id = result[0]
 
                 cursor.execute('''
                     SELECT * FROM "MyDiscord_message"
-                    WHERE thread_id IN %s
-                ''', [tuple(thread_ids)])
+                    WHERE thread_id = %s
+                ''', [thread_id])
                 messages = cursor.fetchall()
 
             messages_data = []
@@ -247,7 +249,7 @@ class MessageViewSet(viewsets.ModelViewSet):
                 }
                 messages_data.append(message_data)
 
-            return Response({'thread_ids': thread_ids, 'messages': messages_data}, status=status.HTTP_200_OK)
+            return Response({'thread_ids': thread_id, 'messages': messages_data}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

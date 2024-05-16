@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { BsHash } from 'react-icons/bs';
 import { FaChevronDown, FaChevronRight, FaPlus } from 'react-icons/fa';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
+import {setMessages} from "../../redux/actions/sessionActions.js";
 
 
 const ChannelBar = () => {
-    const neighbors = [{feed_type: 0, name: 'neighbors1', id: 0}, {feed_type: 0, name: 'neighbors2', id: 1}];
+    const neighbors = [{feed_type: 0, name: 'neighbors1', id: 1}, {feed_type: 0, name: 'neighbors2', id: 2},
+    {feed_type: 0, name: 'neighbors3', id: 3}];
     const friendships  = useSelector(state => state.user.friends);
-    const hoods = [{feed_type: 2, name: 'hood1', id: 0}, {feed_type: 2, name: 'hood2', id: 1}, {feed_type: 2, name: 'hood3', id: 2}];
+    const hoods = [{feed_type: 2, name: 'hood1', id: 1}, {feed_type: 2, name: 'hood2', id: 2}, {feed_type: 2, name: 'hood3', id: 3}];
     const [friends, setFriends] = useState([]); // 使用 useState 管理 friends 状态
 
     const getUserInfo = async () => {
@@ -71,11 +73,13 @@ const ChevronIcon = ({ expanded }) => {
 };
 
 const TopicSelection = ({ selection }) => {
+    const dispatch = useDispatch();
     const handleClick = async () => {
         const url = `/api/messages/get_message_by_thread/?feed_type=${selection.feed_type}&feed_type_id=${selection.id}`;
         try {
             const response = await axios.get(url);
             console.log("Messages fetched:", response.data);
+            dispatch(setMessages(response.data.messages));
         } catch (error) {
             console.error("Error fetching messages:", error);
         }
