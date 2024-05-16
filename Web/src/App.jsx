@@ -6,9 +6,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from './redux/store';
 import axios from "axios";
-import { setUser } from "./redux/actions/userActions.js";
+import {addFriendRequest, setFriend, setFriendRequests, setUser} from "./redux/actions/userActions.js";
 import { toggleLoginPopup } from "./redux/actions/popupActions.js";
 import EditProfile from "./components/Popup/EditProfile.jsx";
+import FriendRequest from "./components/Popup/FriendRequest.jsx";
+import RequestSender from "./components/Popup/RequestSender.jsx";
 
 const App = () => {
     const user = useSelector(state => state.user.currentUser);
@@ -20,8 +22,13 @@ const App = () => {
             try {
                 const response = await axios.get('/api/users/current');
                 dispatch(setUser(response.data));
-                dispatch(toggleLoginPopup());
-                console.log(response.data)
+
+                // Fetch friend requests for the current user
+                const friendRequestResponse = await axios.get(`/api/friendrequests/?uID=${response.data.uID}`);
+                dispatch(setFriendRequests(friendRequestResponse.data));
+
+                const friends = await axios.get(`/api/relationships/${response.data.uID}/friends/`);
+                dispatch(setFriend(friends.data.data));
             } catch (error) {
                 console.error('Error fetching user info:', error.message);
             }
@@ -31,8 +38,10 @@ const App = () => {
     return (
             <BrowserRouter>
                 <Register></Register>
-                <Login/>
+                <Login></Login>
                 <EditProfile></EditProfile>
+                <FriendRequest></FriendRequest>
+                <RequestSender></RequestSender>
                 <Routes>
                     <Route path="/" element={<Home />} />
                 </Routes>
